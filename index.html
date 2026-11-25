@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5a1426">
+<title>Walimatulurus · Saya &amp; Awak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fdf9f6;
+    --paper-warm: #f8efe9;
+    --ink: #2b1419;
+    --soft: #6b5458;
+    --olive: #7a1f33;
+    --line: #ead9cf;
+    --wine: #7a1f33;
+    --wine-deep: #5a1426;
+    --wine-night: #2e0912;
+    --gold: #b8924a;
+    --gold-soft: #dcc390;
+    --gold-foil: linear-gradient(100deg, #a67c37 0%, #e9d5a1 28%, #b8924a 50%, #f3e4bb 72%, #a67c37 100%);
+    --hair: rgba(184, 146, 74, .35);
+    --damask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23dcc390' stroke-opacity='0.16' stroke-width='1'%3E%3Cpath d='M40 6c8 10 8 18 0 28-8-10-8-18 0-28zM40 46c8 10 8 18 0 28-8-10-8-18 0-28zM6 40c10-8 18-8 28 0-10 8-18 8-28 0zM46 40c10-8 18-8 28 0-10 8-18 8-28 0z'/%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3Ccircle cx='0' cy='0' r='3'/%3E%3Ccircle cx='80' cy='0' r='3'/%3E%3Ccircle cx='0' cy='80' r='3'/%3E%3Ccircle cx='80' cy='80' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    --card-w: 100%;
+    --ease: cubic-bezier(.22, .61, .36, 1);
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Jost", "Segoe UI", sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.75;
+    background: var(--paper);
+  }
+  body.is-locked { overflow: hidden; height: 100svh; }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    pointer-events: none;
+    opacity: .05;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 160px 160px;
+  }
+  button, a { font: inherit; }
+  h1, h2, h3 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 400; }
+  .frame {
+    width: var(--card-w);
+    margin: 0 auto;
+    min-height: 100svh;
+    background: var(--paper);
+    position: relative;
+  }
+  .flora {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1;
+    transform-origin: 50% 100%;
+    animation: sway 9s ease-in-out infinite;
+  }
+  .flora:nth-child(even) { animation-duration: 11s; animation-delay: -3s; }
+  .field {
+    position: fixed; z-index: 2; inset: 0; width: 100%; height: 100dvh;
+    opacity: 0; transition: opacity .8s ease .4s;
+  }
+  body.opened .field { opacity: 1; }
+  .flora-wide { display: none; }
+  .flora.garland {
+    position: relative; inset: auto; display: block; overflow: hidden;
+    width: min(340px, 92%); height: 64px; margin: 0 auto 8px; z-index: 2;
+  }
+  .sprig {
+    position: absolute; width: min(190px, 36vw); height: min(190px, 36vw); z-index: 2;
+  }
+  .sprig-tl { top: 4px; left: -8px; }
+  .sprig-tr { top: 4px; right: -8px; animation-name: sway-x; }
+  .sprig-bl { bottom: 0; left: -8px; animation-name: sway-y; }
+  .sprig-br { bottom: 0; right: -8px; animation-name: sway-xy; }
+  @keyframes sway { 50% { transform: rotate(1.2deg); } }
+  @keyframes sway-x { 0%, 100% { transform: scaleX(-1); } 50% { transform: scaleX(-1) rotate(1.2deg); } }
+  @keyframes sway-y { 0%, 100% { transform: scaleY(-1); } 50% { transform: scaleY(-1) rotate(1.2deg); } }
+  @keyframes sway-xy { 0%, 100% { transform: scale(-1); } 50% { transform: scale(-1) rotate(1.2deg); } }
+  .reveal {
+    opacity: 0; transform: translateY(22px);
+    transition: opacity .9s var(--ease), transform .9s var(--ease);
+    transition-delay: calc(var(--i, 0) * 120ms);
+  }
+  .reveal.is-visible { opacity: 1; transform: none; }
+  .reveal--scale { transform: scale(.94); }
+  .reveal--scale.is-visible { transform: none; }
+  .topbar {
+    position: fixed; z-index: 30; top: 0; left: 0;
+    width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 28px 22px;
+    background: linear-gradient(#fdf9f6 0%, #fdf9f6 62%, rgba(253,249,246,0));
+    opacity: 0; pointer-events: none;
+    transition: opacity .6s ease .55s;
+  }
+  body.opened .topbar { opacity: 1; pointer-events: auto; }
+  .topbar b {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 500; letter-spacing: .28em; font-size: 15px; color: var(--wine-deep);
+  }
+  .topbar nav { display: flex; gap: 14px; }
+  .topbar a {
+    color: var(--soft); text-decoration: none; font-size: 11px;
+    letter-spacing: .14em; text-transform: uppercase;
+  }
+  .topbar a:hover { color: var(--wine); }
+  .petals {
+    position: fixed; z-index: 25; inset: 0;
+    width: 100%; height: 100svh;
+    overflow: hidden; pointer-events: none;
+  }
+  .petal {
+    position: absolute; top: -24px;
+    width: 10px; height: 14px;
+    border-radius: 80% 0 80% 0;
+    opacity: .8;
+    background: transparent;
+    perspective: 80px;
+    animation: fall linear forwards;
+  }
+  .petal::after {
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background: var(--petal, #e7cfc6);
+    animation: flutter 2s ease-in-out infinite alternate;
+  }
+  @keyframes fall {
+    0% { transform: translate3d(0,-10px,0) rotate(0deg); }
+    100% { transform: translate3d(var(--drift), 105vh, 0) rotate(var(--spin)); opacity: .1; }
+  }
+  @keyframes flutter { from { transform: rotateX(0deg); } to { transform: rotateX(180deg); } }
+  .curtain {
+    position: fixed; z-index: 40; inset: 0;
+    display: grid; place-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--paper);
+    transition: visibility 0s linear 1.15s;
+  }
+  .curtain.is-open { visibility: hidden; pointer-events: none; }
+  .curtain__panel {
+    position: absolute; top: 0; bottom: 0; width: 50vw;
+    background:
+      radial-gradient(140% 100% at 50% 40%, rgba(220,195,144,.16), transparent 65%),
+      var(--damask),
+      linear-gradient(160deg, var(--wine), var(--wine-night));
+    transition: transform 1.15s var(--ease);
+  }
+  .curtain__panel--left { left: 0; box-shadow: inset -1px 0 0 rgba(220,195,144,.45); }
+  .curtain__panel--right { right: 0; box-shadow: inset 1px 0 0 rgba(220,195,144,.45); }
+  .curtain.is-open .curtain__panel--left { transform: translateX(-100%); }
+  .curtain.is-open .curtain__panel--right { transform: translateX(100%); }
+  .curtain__frame {
+    position: relative; z-index: 1;
+    width: min(420px, 88vw);
+    display: flex; flex-direction: column; align-items: center;
+    padding: clamp(3.2rem, 10vw, 4.6rem) clamp(1.4rem, 6vw, 2.6rem) clamp(2rem, 7vw, 2.8rem);
+    border: 1px solid rgba(220,195,144,.55);
+    border-radius: 240px 240px 3px 3px;
+    background: rgba(46, 9, 18, .28);
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,.6);
+    transition: opacity .5s var(--ease), transform .5s var(--ease);
+  }
+  .curtain__frame::before {
+    content: "";
+    position: absolute; inset: 8px;
+    border: 1px solid rgba(220,195,144,.28);
+    border-radius: 232px 232px 2px 2px;
+    pointer-events: none;
+  }
+  .curtain.is-open .curtain__frame { opacity: 0; transform: translateY(-36px) scale(.96); }
+  .curtain__salam {
+    position: relative;
+    margin: 0;
+    font-family: "Pinyon Script", cursive;
+    font-size: clamp(2.3rem, 8vw, 3.15rem);
+    line-height: 1.2;
+    background-image: var(--gold-foil);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: var(--gold-soft);
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s linear infinite;
+  }
+  @keyframes shimmer { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+  .ornament {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin: 16px 0 8px; color: var(--gold-soft);
+  }
+  .ornament::before, .ornament::after {
+    content: "";
+    width: 52px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--hair), transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 1.2s var(--ease) .3s;
+  }
+  .ornament.is-visible::before, .ornament.is-visible::after { transform: scaleX(1); }
+  .ornament i:first-child {
+    width: 5px; height: 5px; display: block;
+    border: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+  .ornament i:not(:first-child) { display: none; }
+  .ornament--heart i:first-child {
+    width: auto; height: auto; border: 0; transform: none; font-size: 10px; line-height: 1;
+  }
+  .ornament--heart i:first-child::before { content: "♥"; }
+  .curtain__names {
+    position: relative;
+    margin: .35rem 0 .15rem;
+    display: flex; flex-direction: column; align-items: center;
+    font-family: "Pinyon Script", cursive;
+    font-weight: 400;
+    font-size: clamp(3.3rem, 13vw, 4.7rem);
+    line-height: .92;
+    color: #fdf9f6;
+  }
+  .curtain__names .amp {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-style: italic;
+    font-size: .38em;
+    color: var(--gold-soft);
+    line-height: .5;
+    margin: .15em 0;
+  }
+  .cover-date {
+    position: relative;
+    margin: .85rem 0 0;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgba(253,249,246,.78);
+  }
+  .seal {
+    position: relative;
+    margin-top: 1.35rem;
+    appearance: none; border: 0; background: transparent; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    color: rgba(253,249,246,.84);
+    font-family: "Jost", sans-serif;
+    font-size: 11px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+  }
+  .seal__disc {
+    width: 92px; height: 92px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 35% 30%, #c0485e 0%, var(--wine) 46%, #4a0f1e 100%);
+    box-shadow:
+      0 0 0 4px rgba(122,31,51,.55),
+      0 0 0 5px rgba(220,195,144,.7),
+      0 14px 30px -8px rgba(0,0,0,.6),
+      inset 0 -6px 12px rgba(0,0,0,.35),
+      inset 0 4px 8px rgba(255,255,255,.18);
+    position: relative;
+  }
+  .seal__disc::after {
+    content: "";
+    position: absolute; inset: -7px; border-radius: 50%;
+    border: 1px solid rgba(220,195,144,.65);
+    animation: sealPulse 2.6s var(--ease) infinite;
+  }
+  .seal__mono {
+    font-family: "Pinyon Script", cursive;
+    font-size: 2.05rem;
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1;
+    padding-top: .15rem;
+    background-image: var(--gold-foil);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: var(--gold-soft);
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s linear infinite;
+  }
+  .seal__label { letter-spacing: .32em; }
+  .seal__disc::before {
+    content: "";
+    position: absolute; inset: -7px; border-radius: 50%;
+    border: 1px solid rgba(220,195,144,.5);
+    opacity: 0;
+  }
+  .seal:hover .seal__disc { transform: scale(1.05) rotate(-4deg); }
+  .seal:hover .seal__disc::before { animation: sealPulse 1.2s var(--ease) infinite; }
+  .seal:active .seal__disc { transform: scale(.94); }
+  .seal.is-breaking .seal__disc { animation: none; transform: scale(1.15); opacity: 0; transition: .35s ease; }
+  @keyframes sealPulse {
+    0% { transform: scale(1); opacity: .9; }
+    100% { transform: scale(1.45); opacity: 0; }
+  }
+  section { position: relative; padding: clamp(72px, 11vh, 108px) 26px; overflow: hidden; scroll-margin-top: 64px; text-align: center; }
+  .hero {
+    min-height: 100svh; min-height: 100dvh;
+    display: flex; align-items: center; justify-content: center;
+    background:
+      radial-gradient(120% 80% at 50% 30%, rgba(220,195,144,.14), transparent 60%),
+      var(--damask),
+      linear-gradient(180deg, #4a1220, var(--wine-night));
+    color: var(--paper);
+  }
+  .hero .inner, .block { position: relative; z-index: 3; width: min(100%, 680px); margin: 0 auto; text-align: center; }
+  .hero-frame {
+    width: min(100%, 460px);
+    margin: 0 auto;
+    display: flex; flex-direction: column; align-items: center;
+    padding: clamp(3rem, 9vw, 4.4rem) 28px 2.4rem;
+    border-radius: 240px 240px 3px 3px;
+    border: 1px solid transparent;
+    background: rgba(46,9,18,.22);
+    position: relative;
+  }
+  .arch-draw {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; overflow: visible;
+  }
+  .arch-draw path {
+    fill: none;
+    stroke: rgba(220,195,144,.75);
+    stroke-width: 1.25;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  body.opened .arch-draw path { animation: draw 1.8s var(--ease) .35s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .hero-frame::before {
+    content: "";
+    position: absolute; inset: 8px;
+    border: 1px solid rgba(220,195,144,.22);
+    border-radius: 232px 232px 2px 2px;
+    pointer-events: none;
+  }
+  .eyebrow, .cover-kicker {
+    margin: 0;
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--gold);
+  }
+  .hero .eyebrow { color: var(--gold-soft); }
+  .script {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(2.4rem, 7vw, 3.2rem);
+    line-height: 1.05;
+    margin: 8px 0;
+    color: var(--wine-deep);
+    font-weight: 400;
+  }
+  .hero .script {
+    font-family: "Pinyon Script", cursive;
+    font-size: clamp(3.4rem, 13vw, 5.4rem);
+    color: var(--paper);
+    display: flex; flex-direction: column; align-items: center;
+    line-height: .95;
+  }
+  .amp, .hero .amp, .couple-amp {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero .amp { font-size: .36em; color: var(--gold-soft); line-height: .4; margin: .2em 0; }
+  .rule-row {
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    gap: 10px; margin-top: 18px;
+    letter-spacing: .18em; font-size: 12px; text-transform: uppercase;
+    color: rgba(253,249,246,.85);
+  }
+  .rule-row i { width: 22px; height: 1px; background: var(--hair); display: block; }
+  .ar { font-family: "Amiri", serif; font-size: 28px; color: var(--wine); margin: 0 0 14px; }
+  .ayat { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; margin: 0 auto; max-width: 34ch; color: var(--soft); font-size: 1.25rem; }
+  .ayat span { display: block; margin-top: 10px; font-style: normal; letter-spacing: .22em; text-transform: uppercase; font-size: 11px; font-family: "Jost", sans-serif; color: var(--gold); }
+  .parents {
+    display: inline-block; margin: 20px 0 0; padding: 12px 26px 10px;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 500; letter-spacing: .04em; color: var(--wine-deep); font-size: 1.25rem;
+  }
+  .parents em { display: block; font-style: italic; font-weight: 400; margin: 2px 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.4rem; color: var(--gold); }
+  .couple {
+    display: flex; align-items: flex-start; justify-content: center; gap: clamp(10px, 3vw, 28px);
+    margin-top: 8px;
+  }
+  .couple figure { margin: 0; width: min(180px, 38%); }
+  .medal {
+    width: 86px; height: 86px; margin: 0 auto 12px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: "Pinyon Script", cursive;
+    font-size: 40px; color: var(--gold-soft);
+    background: radial-gradient(circle at 35% 30%, #c0485e, var(--wine) 55%, #4a0f1e);
+    box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--gold-soft);
+  }
+  .couple figcaption {
+    font-family: "Pinyon Script", cursive;
+    font-size: clamp(1.8rem, 5vw, 2.3rem);
+    color: var(--wine-deep); line-height: 1.15;
+  }
+  .couple small { display: block; margin-top: 6px; letter-spacing: .16em; text-transform: uppercase; font-size: 10px; color: var(--soft); font-family: "Jost", sans-serif; }
+  .couple-amp { font-size: 32px; padding-top: 28px; }
+  .copy { margin: 14px auto 0; max-width: 38ch; color: var(--soft); }
+  .who { margin: 6px 0 0; letter-spacing: .2em; text-transform: uppercase; font-size: 11px; color: var(--gold); }
+  .count { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 22px; }
+  .count div {
+    border: 1px solid var(--hair);
+    padding: 16px 0 12px;
+    background: rgba(253,249,246,.06);
+    overflow: hidden;
+  }
+  .count b { display: block; font-family: "Cormorant Garamond", Georgia, serif; font-size: 32px; font-weight: 500; color: var(--gold-soft); line-height: 1; }
+  .count b.tick { animation: tick .45s var(--ease); }
+  @keyframes tick { from { transform: translateY(-40%); opacity: .2; } to { transform: none; opacity: 1; } }
+  .count-title {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 500; font-size: clamp(1.45rem, 5.4vw, 2rem); line-height: 1.15;
+    margin: 6px 0 0; color: var(--paper); text-wrap: balance;
+  }
+  .count span { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(253,249,246,.75); }
+  .count-note { margin: 18px 0 0; color: var(--gold-soft); }
+  .facts { margin: 18px auto 0; max-width: 460px; text-align: left; }
+  .facts div { display: grid; grid-template-columns: 86px 1fr; gap: 12px; padding: 12px 4px; border-bottom: 1px solid var(--hair); align-items: center; }
+  .facts div:last-child { border-bottom: 0; }
+  .facts dt { letter-spacing: .14em; text-transform: uppercase; font-size: 10px; color: var(--gold); }
+  .facts dd { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.2rem; }
+  .map-plate {
+    margin: 18px auto 0; max-width: 380px; padding: 28px 18px 18px;
+    border: 1px solid var(--gold-soft);
+    background: var(--paper-warm);
+  }
+  .pin {
+    width: 14px; height: 14px; margin: 0 auto 12px; display: block; border-radius: 50% 50% 50% 0;
+    background: var(--wine);
+    transform: rotate(-45deg);
+  }
+  .pin::after { content: ""; display: block; width: 4px; height: 4px; margin: 5px auto 0; border-radius: 50%; background: var(--gold-soft); }
+  @keyframes drop {
+    0% { transform: translateY(-24px) rotate(-45deg); opacity: 0; }
+    70% { transform: translateY(3px) rotate(-45deg); }
+    100% { transform: rotate(-45deg); }
+  }
+  .is-visible .pin { animation: drop .9s var(--ease) .4s both; }
+  .doa-mark { font-family: "Cormorant Garamond", Georgia, serif; font-size: 72px; line-height: .45; color: rgba(184,146,74,.55); margin: 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 22px; }
+  .actions a, .ghost {
+    text-decoration: none; color: var(--paper);
+    padding: 12px 22px; letter-spacing: .18em; text-transform: uppercase; font-size: 11px;
+    font-family: "Jost", sans-serif;
+    background: var(--wine-deep);
+    border: 1px solid var(--wine-deep);
+  }
+  .actions a:hover, .ghost:hover { background: var(--wine); border-color: var(--wine); }
+  .timeline { list-style: none; margin: 26px auto 0; padding: 0; max-width: 460px; text-align: left; position: relative; }
+  .timeline::before {
+    content: ""; position: absolute; left: 7px; top: 18px; bottom: 18px; width: 1px;
+    background: var(--hair);
+  }
+  @supports (animation-timeline: view()) {
+    .timeline::before {
+      transform: scaleY(0); transform-origin: top;
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+  @keyframes grow { to { transform: scaleY(1); } }
+  .timeline li { position: relative; margin: 0 0 16px 28px; padding: 4px 0 8px; }
+  .timeline li::before {
+    content: ""; position: absolute; left: -25px; top: 16px; width: 9px; height: 9px;
+    border: 1px solid var(--hair); background: var(--paper); transform: rotate(45deg);
+  }
+  .timeline time {
+    display: inline-block; letter-spacing: .16em; text-transform: uppercase; font-size: 11px; color: var(--gold);
+  }
+  .timeline h3 { margin: 2px 0; font-size: 1.45rem; font-weight: 500; color: var(--wine-deep); }
+  .timeline p { margin: 0; color: var(--soft); }
+  .contacts { list-style: none; margin: 18px auto 0; padding: 0; max-width: 420px; }
+  .contacts a {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: inherit; padding: 12px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .contacts a:hover { color: var(--wine); }
+  .contacts i {
+    font-style: normal; flex: none; width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center; color: var(--gold-soft);
+    font-family: "Pinyon Script", cursive; font-size: 1.25rem;
+    background: radial-gradient(circle at 35% 30%, #c0485e, var(--wine-deep));
+  }
+  .contacts em { flex: 1; font-style: normal; text-align: left; font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.25rem; }
+  .contacts a span { color: var(--soft); letter-spacing: .04em; font-size: .92rem; }
+  .closing {
+    min-height: 80svh;
+    display: flex; align-items: center; justify-content: center;
+    background:
+      var(--damask),
+      linear-gradient(180deg, var(--wine), var(--wine-night));
+    color: var(--paper);
+  }
+  .hash { letter-spacing: .28em; color: var(--gold-soft); font-size: 12px; text-transform: uppercase; }
+  .hijri { margin: 8px 0 0; letter-spacing: .2em; text-transform: uppercase; font-size: 11px; color: var(--gold-soft); }
+  .panel {
+    background: transparent;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+    padding: 8px 8px 4px;
+  }
+  .panel::before, .panel::after { display: none; }
+  #ayat {
+    background: var(--damask), var(--wine-night);
+    color: var(--paper);
+  }
+  #ayat .ar, #ayat .ayat { color: rgba(253,249,246,.92); }
+  #ayat .ayat span, #ayat .ar { color: var(--gold-soft); }
+  #jemputan .panel {
+    border: 1px solid var(--gold-soft);
+    background: var(--paper-warm);
+    padding: 3.4rem 1.6rem 2.2rem;
+    box-shadow: 0 30px 60px -46px rgba(58,14,26,.55);
+  }
+  #kira {
+    background:
+      radial-gradient(80% 80% at 50% 0%, rgba(220,195,144,.16), transparent 60%),
+      var(--damask),
+      linear-gradient(160deg, var(--wine), var(--wine-night));
+    color: var(--paper);
+  }
+  #kira .script, #kira .eyebrow { color: var(--gold-soft); }
+  .closing .script {
+    font-family: "Pinyon Script", cursive;
+    font-size: clamp(3rem, 10vw, 4.2rem);
+    color: var(--paper);
+  }
+  .closing .script, .closing .eyebrow, .closing .cover-date, .closing .hash { color: var(--paper); }
+  .closing .eyebrow, .closing .hash, .closing .cover-date { color: var(--gold-soft); }
+  .closing a { color: var(--gold-soft) !important; }
+  .mono { display: none; }
+  @media (min-aspect-ratio: 5/4) {
+    .hero > .flora-tall { display: none; }
+    .hero > .flora-wide { display: block; }
+  }
+  @media (max-width: 900px) {
+    .field { display: none; }
+  }
+  @media (min-width: 760px) {
+    section { padding-left: 8vw; padding-right: 8vw; }
+  }
+  @media (max-width: 640px) {
+    .sprig { width: 72px; height: 72px; }
+    .sprig-tl { top: -28px; left: -30px; }
+    .sprig-tr { top: -28px; right: -30px; }
+    .sprig-bl { bottom: -32px; left: -30px; }
+    .sprig-br { bottom: -32px; right: -30px; }
+    section > .flora:not(.sprig):not(.garland) { animation: none; }
+    .block { padding-inline: 14px; }
+    .count-note { padding-inline: 4px; }
+    .couple { gap: 8px; }
+    .couple figure { width: 44%; }
+    .couple figcaption { font-size: 1.65rem; }
+    .couple small { letter-spacing: .04em; font-size: 8px; line-height: 1.35; }
+    .couple-amp { font-size: 22px; padding-top: 18px; }
+  }
+  @media (max-width: 560px) {
+    .topbar {
+      padding: 12px 14px 14px;
+      background: #fdf9f6;
+    }
+    .topbar nav { gap: 8px; }
+    .topbar a { font-size: 10px; letter-spacing: .06em; white-space: nowrap; }
+    .script { font-size: 2.2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .curtain__panel, .curtain__frame, .seal__disc, .curtain__salam, .seal__mono, .flora, .pin { transition: none; animation: none; }
+    .petals { display: none; }
+    .ornament::before, .ornament::after { transform: none; }
+    .arch-draw path { animation: none; stroke-dashoffset: 0; }
+  }
+</style>
+</head>
+<body class="is-locked">
+  <div class="petals" id="petals" aria-hidden="true"></div>
+  <svg class="field flora" data-layout="field" data-seed="4" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  <header class="topbar">
+    <b>S &amp; A</b>
+    <nav>
+      <a href="#pengantin">Pengantin</a>
+      <a href="#majlis">Majlis</a>
+      <a href="#aturcara">Atur Cara</a>
+      <a href="#hubungi">Hubungi</a>
+    </nav>
+  </header>
+
+  <div class="curtain" id="curtain">
+    <div class="curtain__panel curtain__panel--left" aria-hidden="true"></div>
+    <div class="curtain__panel curtain__panel--right" aria-hidden="true"></div>
+    <div class="curtain__frame">
+      <p class="curtain__salam">Raikan Cinta</p>
+      <div class="ornament ornament--heart reveal" aria-hidden="true"><i></i><i></i></div>
+      <h1 class="curtain__names"><span data-k="brideShort">Saya</span><span class="amp">&amp;</span><span data-k="groomShort">Awak</span></h1>
+      <p class="cover-date">25 Oktober 2025</p>
+      <button class="seal" id="open" type="button">
+        <span class="seal__disc"><span class="seal__mono">S&amp;A</span></span>
+        <span class="seal__label">Buka Jemputan</span>
+      </button>
+    </div>
+  </div>
+
+  <main class="frame" id="card">
+    <section class="hero" id="utama">
+      <svg class="flora flora-tall" data-layout="wreath" data-seed="11" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <svg class="flora flora-wide" data-layout="frame" data-seed="11" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"></svg>
+      <div class="inner">
+        <div class="hero-frame">
+          <svg class="arch-draw" viewBox="0 0 460 640" preserveAspectRatio="none" aria-hidden="true">
+            <path pathLength="1" d="M1 230A229 229 0 0 1 459 230L459 636A3 3 0 0 1 456 639L4 639A3 3 0 0 1 1 636Z"/>
+          </svg>
+          <p class="eyebrow reveal">Walimatulurus</p>
+          <h1 class="script reveal"><span data-k="brideShort">Saya</span><span class="amp">&amp;</span><span data-k="groomShort">Awak</span></h1>
+          <div class="ornament reveal" aria-hidden="true"><i></i></div>
+          <p class="rule-row reveal"><i></i><span data-k="weekday">Sabtu</span><i></i><span data-k="dateLong">25 Oktober 2025</span><i></i></p>
+          <p class="hijri reveal" data-k="hijri">3 Jamadilawal 1447H</p>
+          <p class="reveal hash" data-k="hashtag">#SayaAwakSelamanya</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="ayat">
+      <svg class="flora" data-layout="sides" data-seed="9" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <svg class="sprig sprig-tl flora" data-layout="pocket" data-seed="7" viewBox="0 0 220 220"></svg>
+      <svg class="sprig sprig-br flora" data-layout="pocket" data-seed="8" viewBox="0 0 220 220"></svg>
+      <div class="block panel">
+        <p class="ar reveal">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+        <div class="ornament reveal" aria-hidden="true"><i></i></div>
+        <p class="ayat reveal">“Dan Kami menciptakan kamu berpasang-pasangan”<span>Surah An-Naba’ : 8</span></p>
+      </div>
+    </section>
+
+    <section id="jemputan">
+      <svg class="flora" data-layout="corners" data-seed="27" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Dengan penuh hormat</p>
+        <p class="reveal">Assalamualaikum WBT &amp; Salam Sejahtera</p>
+        <p class="copy reveal">Dengan izin Allah SWT, kami menjemput Dato' / Datin / Tuan / Puan / Encik / Cik sekeluarga ke majlis walimatulurus puteri kami.</p>
+        <p class="parents reveal"><span data-k="father">Nama Bapa Pengantin</span><em>&amp;</em><span data-k="mother">Nama Ibu Pengantin</span></p>
+        <p class="who reveal">Ibu &amp; Bapa Pengantin</p>
+      </div>
+    </section>
+
+    <section class="band" id="pengantin">
+      <svg class="flora" data-layout="sides" data-seed="21" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <svg class="sprig sprig-tr flora" data-layout="pocket" data-seed="19" viewBox="0 0 220 220"></svg>
+      <svg class="sprig sprig-bl flora" data-layout="pocket" data-seed="20" viewBox="0 0 220 220"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Pasangan pengantin</p>
+        <h2 class="script reveal">Raja Sehari</h2>
+        <div class="ornament reveal" aria-hidden="true"><i></i></div>
+        <div class="couple reveal reveal--scale">
+          <figure>
+            <span class="medal" data-initial="brideShort">S</span>
+            <figcaption data-k="bride">Nama Saya</figcaption>
+            <small>Pengantin perempuan</small>
+          </figure>
+          <span class="couple-amp">&amp;</span>
+          <figure>
+            <span class="medal" data-initial="groomShort">A</span>
+            <figcaption data-k="groom">Nama Awak</figcaption>
+            <small>Pengantin lelaki</small>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="kira">
+      <svg class="flora" data-layout="sides" data-seed="35" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <svg class="sprig sprig-tl flora" data-layout="pocket" data-seed="33" viewBox="0 0 220 220"></svg>
+      <svg class="sprig sprig-br flora" data-layout="pocket" data-seed="34" viewBox="0 0 220 220"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Menghitung hari</p>
+        <h2 class="reveal count-title">Ke majlis walimatulurus</h2>
+        <div class="count reveal reveal--scale" id="count">
+          <div><b id="dd">00</b><span>Hari</span></div>
+          <div><b id="hh">00</b><span>Jam</span></div>
+          <div><b id="mm">00</b><span>Minit</span></div>
+          <div><b id="ss">00</b><span>Saat</span></div>
+        </div>
+        <p class="count-note reveal" id="count-note" hidden>Majlis ini telah disempurnakan. Terima kasih atas doa restu.</p>
+        <div class="actions reveal">
+          <a id="save-date" href="#" target="_blank" rel="noopener">Simpan tarikh</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="majlis">
+      <svg class="flora" data-layout="arch" data-seed="43" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Tarikh &amp; tempat</p>
+        <h2 class="script reveal">Atur Majlis</h2>
+        <dl class="facts reveal">
+          <div><dt>Majlis</dt><dd>Walimatulurus</dd></div>
+          <div><dt>Tarikh</dt><dd><span data-k="dateLong">25 Oktober 2025</span><br><span data-k="hijri">3 Jamadilawal 1447H</span></dd></div>
+          <div><dt>Hari</dt><dd data-k="weekday">Sabtu</dd></div>
+          <div><dt>Masa</dt><dd><span data-k="time">11.00 AM – 4.00 PM</span><br>Bersanding <span data-k="bersanding">12.00 PM</span></dd></div>
+          <div><dt>Tempat</dt><dd data-k="venue">Dewan Cinta Kasih, Kuala Lumpur</dd></div>
+        </dl>
+        <p class="copy reveal">Semoga dengan iringan dan doa restu anda, majlis ini berjalan dengan lancar.</p>
+      </div>
+    </section>
+
+    <section class="band" id="aturcara">
+      <svg class="flora" data-layout="sides" data-seed="53" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <svg class="sprig sprig-tr flora" data-layout="pocket" data-seed="51" viewBox="0 0 220 220"></svg>
+      <svg class="sprig sprig-bl flora" data-layout="pocket" data-seed="52" viewBox="0 0 220 220"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Majlis walimatulurus</p>
+        <h2 class="script reveal">Atur Cara</h2>
+        <ol class="timeline reveal" id="program"></ol>
+      </div>
+    </section>
+
+    <section id="doa">
+      <svg class="sprig sprig-tl flora" data-layout="pocket" data-seed="71" viewBox="0 0 220 220"></svg>
+      <svg class="sprig sprig-br flora" data-layout="pocket" data-seed="72" viewBox="0 0 220 220"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Doa untuk pengantin</p>
+        <p class="doa-mark reveal" aria-hidden="true">“</p>
+        <p class="ar reveal">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+        <p class="copy reveal">Ya Allah, satukanlah hati kedua mempelai ini seperti Engkau satukan hati Adam dan Hawa. Jadikanlah mereka suami yang soleh dan isteri yang solehah, murahkan rezeki mereka, dan kurniakan zuriat yang beriman.</p>
+        <p class="copy reveal">Semoga kehidupan mereka dipenuhi sakinah, mawaddah dan rahmah di dunia dan di akhirat.</p>
+        <p class="reveal" style="color:var(--olive);margin-top:16px">Aamiin Ya Rabbal Alamin</p>
+      </div>
+    </section>
+
+    <section class="band" id="lokasi">
+      <svg class="sprig sprig-tr flora" data-layout="pocket" data-seed="81" viewBox="0 0 220 220"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Panduan lokasi</p>
+        <h2 class="script reveal">Alamat</h2>
+        <div class="map-plate reveal reveal--scale">
+          <span class="pin" aria-hidden="true"></span>
+          <p data-k="venue">Dewan Cinta Kasih, Kuala Lumpur</p>
+        </div>
+        <div class="actions reveal">
+          <a id="maps" href="#" target="_blank" rel="noopener">Google Maps</a>
+          <a id="waze" href="#" target="_blank" rel="noopener">Waze</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="hubungi">
+      <svg class="sprig sprig-bl flora" data-layout="pocket" data-seed="91" viewBox="0 0 220 220"></svg>
+      <svg class="sprig sprig-tr flora" data-layout="pocket" data-seed="92" viewBox="0 0 220 220"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Sebarang pertanyaan</p>
+        <h2 class="script reveal">Hubungi</h2>
+        <ul class="contacts reveal" id="contacts"></ul>
+        <p class="copy reveal">Kehadiran dan doa restu anda amatlah kami hargai.</p>
+      </div>
+    </section>
+
+    <section class="closing" id="tutup">
+      <svg class="flora" data-layout="base" data-seed="61" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <div class="block panel">
+        <p class="eyebrow reveal">Terima kasih</p>
+        <div class="mono reveal" aria-hidden="true"><span class="a" data-initial="groomShort">A</span><span class="s" data-initial="brideShort">S</span></div>
+        <div class="ornament reveal" aria-hidden="true"><i></i></div>
+        <h2 class="script reveal"><span data-k="brideShort">Saya</span> &amp; <span data-k="groomShort">Awak</span></h2>
+        <p class="reveal hash" data-k="hashtag">#SayaAwakSelamanya</p>
+        <p class="reveal cover-date" data-k="dateLong">25 Oktober 2025</p>
+        <p class="reveal" style="margin-top:18px"><a href="azure.html" style="color:var(--olive);text-decoration:none;letter-spacing:.18em;font-size:12px;text-transform:uppercase">Rekaan Azure</a></p>
+      </div>
+    </section>
+  </main>
+
+<script>
+const CARD = {
+  brideShort: "Saya",
+  groomShort: "Awak",
+  bride: "Nama Saya",
+  groom: "Nama Awak",
+  father: "Nama Bapa Pengantin",
+  mother: "Nama Ibu Pengantin",
+  weekday: "Sabtu",
+  dateLong: "25 Oktober 2025",
+  time: "11.00 AM – 4.00 PM",
+  bersanding: "12.00 PM",
+  venue: "Dewan Cinta Kasih, Kuala Lumpur",
+  hashtag: "#SayaAwakSelamanya",
+  hijri: "3 Jamadilawal 1447H",
+  dateISO: "2025-10-25T11:00:00+08:00",
+  endISO: "2025-10-25T16:00:00+08:00",
+  maps: "https://www.google.com/maps/search/?api=1&query=Dewan+Cinta+Kasih+Kuala+Lumpur",
+  waze: "https://waze.com/ul?q=Dewan%20Cinta%20Kasih%20Kuala%20Lumpur&navigate=yes",
+  contacts: [
+    { who: "Pengantin perempuan", tel: "011 123 4567" },
+    { who: "Pengantin lelaki", tel: "011 123 4567" },
+    { who: "Ibu pengantin", tel: "011 123 4567" }
+  ],
+  program: [
+    { time: "11:00 Pagi", title: "Majlis bermula", text: "Jamuan dibuka untuk para tetamu." },
+    { time: "12:00 Tengah hari", title: "Bersanding", text: "Ketibaan dan perarakan pasangan pengantin." },
+    { time: "4:00 Petang", title: "Majlis bersurai", text: "Terima kasih atas kesudian hadir dan mendoakan kami." }
+  ]
+};
+
+const params = new URLSearchParams(location.search);
+["brideShort","groomShort","bride","groom","father","mother","weekday","dateLong","hijri","time","bersanding","venue","hashtag","maps","waze","dateISO","endISO"].forEach((key) => {
+  if (params.get(key)) CARD[key] = params.get(key);
+});
+document.querySelectorAll("[data-k]").forEach((node) => {
+  if (CARD[node.dataset.k]) node.textContent = CARD[node.dataset.k];
+});
+document.querySelectorAll("[data-initial]").forEach((node) => {
+  const value = CARD[node.dataset.initial] || "";
+  node.textContent = value.charAt(0);
+});
+document.title = "Walimatulurus · " + CARD.brideShort + " & " + CARD.groomShort;
+document.querySelector(".topbar b").textContent = CARD.brideShort.charAt(0) + " & " + CARD.groomShort.charAt(0);
+document.querySelector(".cover-date").textContent = CARD.dateLong;
+const sealMono = document.querySelector(".seal__mono");
+if (sealMono) sealMono.textContent = CARD.brideShort.charAt(0) + "&" + CARD.groomShort.charAt(0);
+document.getElementById("maps").href = CARD.maps;
+document.getElementById("waze").href = CARD.waze;
+
+document.getElementById("program").innerHTML = CARD.program.map((item) =>
+  "<li><time>" + item.time + "</time><h3>" + item.title + "</h3><p>" + item.text + "</p></li>"
+).join("");
+document.getElementById("contacts").innerHTML = CARD.contacts.map((person) =>
+  '<li><a href="tel:' + person.tel.replace(/\s/g, "") + '"><i>' + person.who.charAt(0) + "</i><em>" + person.who + "</em><span>" + person.tel + "</span></a></li>"
+).join("");
+
+const start = new Date(CARD.dateISO);
+const end = new Date(CARD.endISO);
+const stamp = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+document.getElementById("save-date").href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text="
+  + encodeURIComponent("Walimatulurus " + CARD.brideShort + " & " + CARD.groomShort)
+  + "&dates=" + stamp(start) + "/" + stamp(end)
+  + "&location=" + encodeURIComponent(CARD.venue);
+
+function pad(n) { return String(n).padStart(2, "0"); }
+function setVal(id, v) {
+  const el = document.getElementById(id);
+  if (!el || el.textContent === v) return;
+  el.textContent = v;
+  el.classList.remove("tick");
+  void el.offsetWidth;
+  el.classList.add("tick");
+}
+let clock;
+function tick() {
+  const diff = start - Date.now();
+  const note = document.getElementById("count-note");
+  const board = document.getElementById("count");
+  if (diff <= 0) {
+    board.hidden = true;
+    note.hidden = false;
+    clearInterval(clock);
+    return;
+  }
+  const s = Math.floor(diff / 1000);
+  setVal("dd", pad(Math.floor(s / 86400)));
+  setVal("hh", pad(Math.floor(s / 3600) % 24));
+  setVal("mm", pad(Math.floor(s / 60) % 60));
+  setVal("ss", pad(s % 60));
+}
+tick();
+if (!document.getElementById("count").hidden) clock = setInterval(tick, 1000);
+
+const petals = document.getElementById("petals");
+const colors = ["#e7cfc6", "#f7f1ea", "#a35d62", "#d7b5ab", "#8d4e55"];
+function spawnPetal(burst) {
+  const petal = document.createElement("i");
+  petal.className = "petal";
+  petal.style.left = (burst ? 20 + Math.random() * 60 : Math.random() * 100) + "%";
+  petal.style.setProperty("--petal", colors[Math.floor(Math.random() * colors.length)]);
+  petal.style.setProperty("--drift", (Math.random() * 80 - 40) + "px");
+  petal.style.setProperty("--spin", (Math.random() * 420) + "deg");
+  petal.style.animationDuration = (burst ? 4.5 : 7) + Math.random() * 4 + "s";
+  petal.style.animationDelay = (burst ? Math.random() * 0.35 : 0) + "s";
+  petals.appendChild(petal);
+  petal.addEventListener("animationend", (event) => {
+    if (event.animationName === "fall") petal.remove();
+  });
+}
+let drift;
+document.getElementById("open").addEventListener("click", () => {
+  const curtain = document.getElementById("curtain");
+  if (curtain.classList.contains("is-open")) return;
+  document.getElementById("open").classList.add("is-breaking");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const smallScreen = window.matchMedia("(max-width: 560px)").matches;
+  if (!reduceMotion) {
+    const burst = smallScreen ? 9 : 22;
+    for (let i = 0; i < burst; i++) spawnPetal(true);
+    const cap = smallScreen ? 8 : 16;
+    drift = setInterval(() => { if (petals.childElementCount < cap) spawnPetal(false); }, 1400);
+    setTimeout(() => clearInterval(drift), 12000);
+  }
+  setTimeout(() => {
+    curtain.classList.add("is-open");
+    document.body.classList.add("opened");
+    document.body.classList.remove("is-locked");
+    window.scrollTo(0, 0);
+  }, 280);
+});
+
+document.querySelectorAll(".block").forEach((block) => {
+  block.querySelectorAll(".reveal").forEach((el, i) => el.style.setProperty("--i", i));
+});
+const seen = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add("is-visible");
+    seen.unobserve(entry.target);
+  });
+}, { threshold: 0.22 });
+document.querySelectorAll(".reveal").forEach((node) => seen.observe(node));
+
+const NS = "http://www.w3.org/2000/svg";
+const LEAVES = ["#5d6b54", "#7c8b6c", "#465443", "#6d7b62", "#8d987c", "#54636a"];
+const ROSE_W = ["#fbf7f2", "#f4ece3", "#e7ddd0", "#f8f3ec"];
+const ROSE_B = ["#ead4cb", "#f6e4dc", "#d7b5ab", "#f3ddd4"];
+const POIN = ["#8c4c54", "#a35e64", "#6d3a42", "#b47068", "#7a4450"];
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function el(name, attrs) {
+  const node = document.createElementNS(NS, name);
+  for (const key in attrs) node.setAttribute(key, attrs[key]);
+  return node;
+}
+function leaf(g, rot, len, color, opacity) {
+  const d = "M0,0 C" + (len * 0.25) + "," + (-len * 0.38) + " " + (len * 0.72) + "," + (-len * 0.28) + " " + len + ",0 C" + (len * 0.7) + "," + (len * 0.22) + " " + (len * 0.28) + "," + (len * 0.32) + " 0,0";
+  g.appendChild(el("path", { d, fill: color, opacity, transform: "rotate(" + rot + ")" }));
+}
+function rose(g, x, y, sc, rot, palette, rnd) {
+  const flower = el("g", { transform: "translate(" + x + " " + y + ") rotate(" + rot + ") scale(" + sc + ")" });
+  const petal = "M0,2 C8,-1 13,-12 5,-23 C-1,-16 -9,-8 0,2";
+  [1, 0.7, 0.42].forEach((scp, layer) => {
+    const n = layer === 2 ? 4 : 6;
+    for (let i = 0; i < n; i++) {
+      flower.appendChild(el("path", {
+        d: petal, fill: palette[(i + layer) % palette.length], opacity: 0.8 + layer * 0.06,
+        transform: "rotate(" + (i * (360 / n) + layer * 24) + ") scale(" + scp + ")"
+      }));
+    }
+  });
+  flower.appendChild(el("circle", { cx: "0", cy: "0", r: "4.2", fill: palette[2] }));
+  g.appendChild(flower);
+}
+function poinsettia(g, x, y, sc, rot) {
+  const flower = el("g", { transform: "translate(" + x + " " + y + ") rotate(" + rot + ") scale(" + sc + ")" });
+  for (let layer = 0; layer < 2; layer++) {
+    const len = layer === 0 ? 28 : 20;
+    for (let i = 0; i < 6; i++) {
+      flower.appendChild(el("path", {
+        d: "M0,0 C5,-8 6,-" + (len * 0.62) + " 0,-" + len + " C-6,-" + (len * 0.62) + " -5,-8 0,0",
+        fill: POIN[(i + layer) % POIN.length], opacity: 0.9,
+        transform: "rotate(" + (i * 60 + layer * 30) + ")"
+      }));
+    }
+  }
+  flower.appendChild(el("circle", { cx: "0", cy: "0", r: "4", fill: "#c6a15a" }));
+  g.appendChild(flower);
+}
+function berries(g, rnd) {
+  for (let i = 0; i < 5; i++) {
+    g.appendChild(el("circle", {
+      cx: (rnd() - 0.5) * 16, cy: (rnd() - 0.5) * 16, r: 2 + rnd() * 1.4,
+      fill: rnd() > 0.5 ? "#7d3038" : "#a34848"
+    }));
+  }
+}
+function bouquet(svg, x, y, rot, scale, rnd) {
+  const g = el("g", { transform: "translate(" + x.toFixed(1) + " " + y.toFixed(1) + ") rotate(" + rot.toFixed(1) + ") scale(" + scale.toFixed(2) + ")" });
+  g.appendChild(el("path", { d: "M-46,12 C-20,-8 14,-16 48,4", fill: "none", stroke: "#66745c", "stroke-width": "1.2", opacity: "0.8" }));
+  [-34, -16, 2, 18, 34].forEach((sx, i) => {
+    const wrap = el("g", { transform: "translate(" + sx + " " + (i % 2 ? -8 : 5) + ")" });
+    leaf(wrap, (i % 2 ? -68 : 74), 16 + rnd() * 12, LEAVES[i % LEAVES.length], 0.92);
+    g.appendChild(wrap);
+  });
+  const kind = Math.floor(rnd() * 4);
+  if (kind === 0) rose(g, 4, -8, 0.85, rnd() * 20, ROSE_W, rnd);
+  else if (kind === 1) poinsettia(g, 0, -4, 0.66, rnd() * 20);
+  else if (kind === 2) rose(g, 6, -6, 0.72, rnd() * 20, ROSE_B, rnd);
+  else berries(g, rnd);
+  svg.appendChild(g);
+}
+document.querySelectorAll(".panel").forEach((panel, index) => {
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("class", "garland flora");
+  svg.setAttribute("data-layout", "garland");
+  svg.setAttribute("data-seed", String(13 + index * 3));
+  svg.setAttribute("viewBox", "0 0 400 110");
+  svg.setAttribute("aria-hidden", "true");
+  panel.insertBefore(svg, panel.firstChild);
+});
+
+function layoutPoints(layout, narrow) {
+  const pts = [];
+  if (layout === "garland") {
+    for (let i = 0; i < 5; i++) {
+      const t = i / 4;
+      pts.push({
+        x: 40 + t * 320,
+        y: 82 - Math.sin(t * Math.PI) * 16,
+        angle: -14 + t * 28,
+        scale: 0.46
+      });
+    }
+    return pts;
+  }
+  if (layout === "frame") {
+    const pts = [];
+    for (let i = 0; i < 10; i++) {
+      const t = i / 9;
+      pts.push({ x: 70 + t * 1460, y: 52 + (i % 2) * 28, angle: -14 + t * 28, scale: 0.72 });
+      pts.push({ x: 80 + t * 1440, y: 848 - (i % 2) * 24, angle: 168, scale: 0.72 });
+    }
+    for (let i = 0; i < 4; i++) {
+      pts.push({ x: 78 + (i % 2) * 86, y: 190 + i * 145, angle: 78, scale: 0.7 });
+      pts.push({ x: 1522 - (i % 2) * 86, y: 210 + i * 140, angle: -78, scale: 0.7 });
+    }
+    return pts;
+  }
+  if (layout === "field") {
+    const zone = Math.max(0.14, Math.min(0.32, (window.innerWidth / 2 - 440) / window.innerWidth));
+    const pts = [];
+    for (let col = 0; col < 3; col++) {
+      for (let row = 0; row < 5; row++) {
+        const y = 110 + row * 155;
+        const x = 48 + col * ((zone * 1600 - 60) / 2);
+        pts.push({ x: x, y: y, angle: 62 + col * 14, scale: 0.58 + (row % 2) * 0.1 });
+        pts.push({ x: 1600 - x, y: y + 28, angle: -64 - col * 12, scale: 0.58 + ((row + 1) % 2) * 0.1 });
+      }
+    }
+    return pts;
+  }
+  if (layout === "spine") {
+    for (let i = 0; i < 12; i++) {
+      const t = i / 11;
+      pts.push({
+        x: 42 + Math.sin(t * Math.PI * 2.4) * 24,
+        y: 36 + t * 830,
+        angle: 78 + Math.sin(t * 7) * 22,
+        scale: 0.64
+      });
+    }
+    return pts;
+  }
+  if (layout === "sides") {
+    const n = narrow ? 6 : 7;
+    for (let i = 0; i < n; i++) {
+      const t = i / (n - 1);
+      if (narrow) {
+        pts.push({ x: -6, y: 28 + t * 744, angle: 76, scale: 0.5 });
+        pts.push({ x: 406, y: 64 + t * 700, angle: -76, scale: 0.5 });
+      } else {
+        pts.push({ x: 22, y: 50 + t * 700, angle: 70 + (i % 2 ? 18 : -12), scale: 0.7 });
+        pts.push({ x: 378, y: 90 + t * 660, angle: -80 + (i % 2 ? -16 : 10), scale: 0.7 });
+      }
+    }
+    return pts;
+  }
+  if (layout === "pocket") {
+    const count = narrow ? 5 : 7;
+    for (let i = 0; i < count; i++) {
+      const t = (i / (count - 1)) * Math.PI * (narrow ? 0.42 : 0.55);
+      const reach = narrow ? 14 + i * 9 : 30 + i * 16;
+      pts.push({
+        x: (narrow ? 6 : 18) + Math.cos(t) * reach,
+        y: (narrow ? 6 : 18) + Math.sin(t) * reach,
+        angle: (t * 180 / Math.PI) + 20,
+        scale: (narrow ? 0.46 : 0.72) + (i % 3) * (narrow ? 0.04 : 0.08)
+      });
+    }
+    return pts;
+  }
+  if (layout === "wreath") {
+    const count = narrow ? 16 : 22;
+    const rx = narrow ? 214 : 168;
+    const ry = narrow ? 430 : 300;
+    const scale = narrow ? 0.5 : 0.9;
+    for (let i = 0; i < count; i++) {
+      const t = (i / count) * Math.PI * 2 - Math.PI / 2;
+      pts.push({
+        x: 200 + Math.cos(t) * rx,
+        y: 400 + Math.sin(t) * ry,
+        angle: Math.atan2(ry * Math.cos(t), -rx * Math.sin(t)) * 180 / Math.PI,
+        scale: scale
+      });
+    }
+  } else if (layout === "corners") {
+    if (narrow) {
+      for (let i = 0; i < 4; i++) {
+        const t = i / 3;
+        pts.push({ x: -8 + t * 40, y: -10 + t * 34, angle: 28 + t * 16, scale: 0.48 });
+        pts.push({ x: 408 - t * 40, y: 810 - t * 34, angle: 208, scale: 0.48 });
+      }
+    } else {
+      for (let i = 0; i < 6; i++) {
+        const t = i / 5;
+        pts.push({ x: 250 + Math.sin(t * 1.1) * 140, y: 10 + Math.pow(t, 1.1) * 180, angle: -30 + t * 90, scale: 0.85 });
+      }
+      for (let i = 0; i < 6; i++) {
+        const t = i / 5;
+        pts.push({ x: 150 - Math.sin(t * 1.1) * 140, y: 790 - Math.pow(t, 1.1) * 190, angle: 150 - t * 80, scale: 0.9 });
+      }
+    }
+  } else if (layout === "arch") {
+    if (narrow) {
+      for (let i = 0; i < 3; i++) {
+        const t = i / 2;
+        pts.push({ x: -8 + t * 42, y: 2 + t * 24, angle: 22, scale: 0.48 });
+        pts.push({ x: 408 - t * 42, y: 2 + t * 24, angle: 158, scale: 0.48 });
+      }
+    } else {
+      for (let i = 0; i < 9; i++) {
+        const t = i / 8;
+        const edge = Math.abs(t - 0.5) * 2;
+        pts.push({ x: 10 + t * 380, y: 24 + Math.pow(edge, 1.3) * 130, angle: -20 + t * 30, scale: 0.85 });
+      }
+    }
+  } else if (narrow) {
+    for (let i = 0; i < 3; i++) {
+      const t = i / 2;
+      pts.push({ x: -8 + t * 42, y: 798 - t * 18, angle: 158, scale: 0.48 });
+      pts.push({ x: 408 - t * 42, y: 798 - t * 18, angle: 22, scale: 0.48 });
+    }
+  } else {
+    for (let i = 0; i < 9; i++) {
+      const t = i / 8;
+      const edge = Math.abs(t - 0.5) * 2;
+      pts.push({ x: 10 + t * 380, y: 800 - (40 + Math.pow(edge, 1.2) * 120), angle: 160, scale: 0.88 });
+    }
+  }
+  return pts;
+}
+function paintFlora() {
+  const narrow = window.matchMedia("(max-width: 640px)").matches;
+  document.querySelectorAll(".flora").forEach((svg) => {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    const rnd = mulberry32(Number(svg.dataset.seed));
+    layoutPoints(svg.dataset.layout, narrow).forEach((p) => bouquet(svg, p.x, p.y, p.angle, p.scale * (0.9 + rnd() * 0.2), rnd));
+  });
+}
+paintFlora();
+let floraTimer = 0;
+window.addEventListener("resize", () => {
+  clearTimeout(floraTimer);
+  floraTimer = setTimeout(paintFlora, 150);
+});
+</script>
+</body>
+</html>
