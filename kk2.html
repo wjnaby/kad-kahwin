@@ -161,6 +161,14 @@
   .to-top.is-shown { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition-delay: 0s; }
   .to-top:hover { background: var(--blue-deep); color: #fff; }
   .music-fab svg { width: 22px; height: 22px; }
+  /* slash through the note when the music is off */
+  .music-fab::after {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 30px; height: 2px; border-radius: 2px; background: currentColor;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    transition: opacity .25s ease;
+  }
+  .music-fab[aria-pressed="true"]::after { opacity: 0; }
   .music-fab[aria-pressed="true"] { background: var(--blue-deep); color: #fff; }
   .music-fab[aria-pressed="true"] svg { animation: bob 1.4s ease-in-out infinite alternate; }
   @keyframes bob { from { transform: translateY(1px) rotate(-6deg); } to { transform: translateY(-2px) rotate(6deg); } }
@@ -235,7 +243,7 @@
     --ew: min(88vw, 420px, max(250px, calc((100svh - 380px) * 1.47)));
     position: relative;
     width: var(--ew); height: calc(var(--ew) * .68);
-    margin-top: clamp(84px, 17vh, 170px);
+    margin-top: clamp(20px, 4vh, 40px);
     perspective: 1500px;
     filter: drop-shadow(0 28px 22px rgba(8, 20, 50, .36)) drop-shadow(0 3px 3px rgba(8, 20, 50, .22));
   }
@@ -752,6 +760,147 @@
   .closing .script, .closing .eyebrow, .closing .hash, .closing .cover-date, .closing .ornament { color: #eef1f8; }
   .closing p { color: #d3d9e8; }
   .closing .ornament i, .closing .ornament::before, .closing .ornament::after { background: #aeb6c5; }
+
+  /* ===== Blue floral watercolor background ===== */
+  html { background: #f4f6fa; }
+  body { background: transparent; }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: #f4f6fa url("photos/bg-blue-flowers.jpg") center / cover no-repeat;
+  }
+  .frame section,
+  .frame #pengantin, .frame #aturcara, .frame #lokasi, .frame #kira,
+  .frame .hero { background: transparent !important; }
+  .frame .flora, .frame .decor, .field { display: none !important; }
+
+  /* No boxes: bolder, darker text with a soft white halo so it stays readable over the flowers */
+  .frame {
+    --blue-night: #0a1a43;
+    --blue-deep: #0f2350;
+    --blue-mid: #1d3a78;
+    --soft: #1c2a4d;
+    --ink: #0a1a43;
+    font-weight: 500;
+    text-shadow:
+      0 0 3px rgba(255, 255, 255, .95),
+      0 0 8px rgba(255, 255, 255, .9),
+      0 0 16px rgba(255, 255, 255, .75);
+  }
+  .frame .eyebrow, .frame .hash, .frame .hijri, .frame .rule-row, .frame .cover-date,
+  .frame .duo-label, .frame .who, .frame .facts dt, .frame .timeline time,
+  .frame .count span, .frame .couple small, .frame .ayat span {
+    font-weight: 600; font-size: 12.5px;
+  }
+  .frame h2:not(.script), .frame h3, .frame .count-title, .frame .parents, .frame .timeline h3,
+  .frame .facts dd, .frame .contacts em, .frame .ayat { font-weight: 600; }
+  .frame .copy, .frame .timeline p, .frame .contacts a span { font-size: 1.06rem; font-weight: 500; color: #1c2a4d; }
+  .frame .ayat { font-size: 1.4rem; color: #1c2a4d; }
+  .frame .facts div, .frame .contacts a { border-bottom-color: rgba(15, 35, 80, .35); }
+  .frame .timeline::before { background: rgba(15, 35, 80, .5); }
+  /* Front page (envelope cover) background */
+  /* Two layers: a soft blurred copy fills the whole screen, and the sharp image sits on top
+     fitted to the screen (whole picture visible on desktop/tablet, filled edge-to-edge on tall phones) */
+  .curtain { background: #eef3fb; }
+  .curtain::before, .curtain::after {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: url("photos/bg-cover.jpg") center / cover no-repeat;
+  }
+  .curtain::before { transform: scale(1.12); filter: blur(28px) saturate(1.05); }
+  .curtain::after { background-size: contain; background-position: center; }
+  @media (max-aspect-ratio: 1/2) {
+    .curtain::after { background-size: cover; }
+  }
+  .curtain > .decor { display: none; }
+  .env-eyebrow, .env-salam { text-shadow: 0 0 8px rgba(255,255,255,.9), 0 0 18px rgba(255,255,255,.8); }
+  .env-hint { font-weight: 500; text-shadow: 0 0 8px rgba(255,255,255,.95), 0 0 16px rgba(255,255,255,.85); }
+
+  /* Atur Majlis: translucent box (same as the invitation box) */
+  #majlis .panel {
+    border: 1px solid #c0cadf;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .88);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    padding: 2.2rem 1.6rem;
+    box-shadow: 0 24px 50px -36px rgba(15, 35, 80, .5);
+  }
+  @media (max-width: 560px) { #majlis .panel { padding: 1.6rem 1rem; } }
+  /* keep buttons and cards crisp (no halo) */
+  .frame .actions a, .frame .medal, .frame .contacts i { text-shadow: none; }
+
+  /* ===== Hubungi: contact cards (white card, navy top edge, round medallion icon) ===== */
+  @property --draw { syntax: "<angle>"; inherits: false; initial-value: 180deg; }
+  #hubungi .block { width: min(100%, 820px); }
+  #hubungi .script::after {
+    content: ""; display: block; width: 120px; height: 14px; margin: .6rem auto 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cg fill='none' stroke='%234c6ba3' stroke-width='1'%3E%3Cpath d='M0 7h44M76 7h44'/%3E%3Cpath d='M60 1l6 6-6 6-6-6z' fill='%234c6ba3' fill-opacity='0.25'/%3E%3Cpath d='M44 7c4-5 8-5 10 0M76 7c-4-5-8-5-10 0M44 7c4 5 8 5 10 0M76 7c-4 5-8 5-10 0'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  #hubungi .contacts {
+    list-style: none; margin: 2rem auto 0; padding: 0; max-width: none;
+    display: grid; gap: 1.25rem;
+  }
+  @media (min-width: 640px) { #hubungi .contacts { grid-template-columns: repeat(3, 1fr); } }
+  #hubungi .contacts li { display: flex; }
+  #hubungi .contact-card {
+    position: relative; flex: 1; justify-content: flex-start;
+    display: flex; flex-direction: column; align-items: center; gap: .35rem;
+    padding: clamp(1.6rem, 5vw, 2.1rem) 1.1rem;
+    background: rgba(255, 255, 255, .95);
+    border: 1px solid #c0cadf; border-top: 3px solid var(--blue-deep);
+    border-radius: 8px;
+    text-align: center; text-decoration: none; color: inherit;
+    box-shadow: 0 30px 60px -45px rgba(15, 35, 80, .55);
+    transition: transform .6s var(--ease), box-shadow .6s var(--ease);
+    text-shadow: none;
+  }
+  #hubungi .contact-card:hover { transform: translateY(-6px); box-shadow: 0 40px 70px -40px rgba(15, 35, 80, .6); }
+  #hubungi .contact-card::after {
+    content: ""; position: absolute; inset: -1px; border: 1px solid #8ea3c7; border-radius: inherit; pointer-events: none;
+    -webkit-mask: conic-gradient(from 180deg, #000 var(--draw), transparent 0 calc(360deg - var(--draw)), #000 0);
+            mask: conic-gradient(from 180deg, #000 var(--draw), transparent 0 calc(360deg - var(--draw)), #000 0);
+  }
+  #hubungi .contacts.is-visible .contact-card::after { animation: traceDraw 2.2s var(--ease) .35s backwards; }
+  @keyframes traceDraw { from { --draw: 0deg; } to { --draw: 180deg; } }
+  #hubungi .contact-icon {
+    box-sizing: content-box; padding: 16px; border-radius: 50%;
+    color: #dde4f1;
+    background: radial-gradient(circle at 35% 30%, #4c6ba3, #213f7a 50%, #0f2350);
+    box-shadow: 0 0 0 4px #fff, 0 0 0 5px #aeb6c5;
+    margin: .25rem auto 1.1rem; display: block;
+  }
+  #hubungi .contact-name { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.5rem; font-weight: 600; color: #0f2350; line-height: 1.2; }
+  #hubungi .contact-num { font-size: .95rem; font-weight: 500; letter-spacing: .08em; color: #3a4668; font-variant-numeric: tabular-nums; }
+
+  /* ===== Ending: dark navy band — rule · heart · rule, big names, note, small rule, credit ===== */
+  .frame .closing {
+    min-height: 0; display: block;
+    padding: clamp(4rem, 11vw, 6.5rem) 26px;
+    color: #eef1f8; text-shadow: none;
+    background:
+      radial-gradient(90% 120% at 50% 0%, rgba(174, 182, 197, .22), transparent 60%),
+      linear-gradient(170deg, #17356f, #0a1a43) !important;
+  }
+  .frame .closing .ornament { color: #c3cde3; margin: 0 0 1rem; }
+  .frame .closing .ornament::before, .frame .closing .ornament::after {
+    width: clamp(34px, 12vw, 60px);
+    background: linear-gradient(90deg, transparent, rgba(195, 205, 227, .75), transparent);
+  }
+  .closing-heart { width: 13px; height: 13px; flex: none; }
+  .frame .closing .script {
+    font-family: "Pinyon Script", cursive; font-size: clamp(2.8rem, 10vw, 4.2rem);
+    font-weight: 400; color: #ffffff; margin: .5rem 0 .85rem; line-height: 1.15;
+  }
+  .frame .closing .script .amp { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: .6em; color: #c3cde3; padding-inline: .15em; }
+  .frame .closing .closing-note { margin: 0; color: rgba(238, 241, 248, .8); font-weight: 400; font-size: 1rem; }
+  .closing-rule { width: 48px; height: 1px; background: rgba(195, 205, 227, .55); margin: 2rem auto; }
+  .frame .closing .closing-credit {
+    margin: 0; font-size: .68rem; font-weight: 400; letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(238, 241, 248, .65);
+  }
+  .frame .closing .closing-credit strong { font-weight: 600; color: rgba(238, 241, 248, .85); }
+  .frame .closing .closing-credit .cover-date { margin: 0; color: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; text-transform: inherit; }
+
+  /* ===== Falling petals (replaces the falling butterflies) ===== */
+  .petals { position: fixed; inset: 0; z-index: 26; width: 100%; height: 100%; pointer-events: none; }
 </style>
 </head>
 <body class="is-locked">
@@ -760,7 +909,7 @@
     <symbol id="butterfly" viewBox="-40 -48 80 90"></symbol>
   </svg>
 
-  <div class="flight" id="flight" aria-hidden="true"></div>
+  <canvas class="petals" id="petals" aria-hidden="true"></canvas>
   <svg class="field flora" data-layout="field" data-seed="4" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
 
   <header class="topbar" id="topbar">
@@ -797,53 +946,6 @@
       </div>
 
       <div class="envelope" id="envelope">
-        <svg class="env-crown" viewBox="0 -6 200 130" aria-hidden="true">
-          <defs>
-            <linearGradient id="crG" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#f8f9fc"/>
-              <stop offset=".25" stop-color="#b6bdcb"/>
-              <stop offset=".5" stop-color="#eef0f5"/>
-              <stop offset=".75" stop-color="#8b94a6"/>
-              <stop offset="1" stop-color="#d0d5df"/>
-            </linearGradient>
-            <radialGradient id="crP" cx=".35" cy=".3" r=".8">
-              <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".6" stop-color="#d9dde6"/>
-              <stop offset="1" stop-color="#9aa3b5"/>
-            </radialGradient>
-            <radialGradient id="crS" cx=".35" cy=".3" r=".8">
-              <stop offset="0" stop-color="#7fa3e6"/>
-              <stop offset="1" stop-color="#1f3f86"/>
-            </radialGradient>
-          </defs>
-          <path d="M20,96 L10,40 L44,64 L58,24 L80,62 L100,8 L120,62 L142,24 L156,64 L190,40 L180,96 Q100,106 20,96Z" fill="url(#crG)" stroke="#6a7385" stroke-width="1.1" stroke-linejoin="round"/>
-          <g fill="none" stroke="#6c7587" stroke-width="1.1" stroke-linecap="round">
-            <path d="M28,92 C26,72 40,66 52,70 C60,74 62,84 66,92"/>
-            <path d="M72,94 C72,80 82,72 94,74"/>
-            <g transform="translate(200 0) scale(-1 1)">
-              <path d="M28,92 C26,72 40,66 52,70 C60,74 62,84 66,92"/>
-              <path d="M72,94 C72,80 82,72 94,74"/>
-            </g>
-          </g>
-          <path d="M22,92 L13,44 L28,55" fill="#fff" opacity=".55"/>
-          <path d="M100,14 L91,54" stroke="#fff" stroke-opacity=".7" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <path d="M20,96 Q100,106 180,96 L182,112 Q100,122 18,112Z" fill="url(#crG)" stroke="#6a7385" stroke-width="1.1" stroke-linejoin="round"/>
-          <g fill="#e9eef7" stroke="#6c7587" stroke-width=".8">
-            <ellipse cx="36" cy="106" rx="4" ry="3"/>
-            <ellipse cx="68" cy="108" rx="4" ry="3"/>
-            <ellipse cx="132" cy="108" rx="4" ry="3"/>
-            <ellipse cx="164" cy="106" rx="4" ry="3"/>
-          </g>
-          <ellipse cx="100" cy="109" rx="6" ry="4.4" fill="url(#crS)" stroke="#4b5670" stroke-width=".9"/>
-          <g fill="url(#crP)" stroke="#7d8698" stroke-width=".7">
-            <circle cx="10" cy="37" r="4.8"/>
-            <circle cx="58" cy="20" r="4.6"/>
-            <circle cx="100" cy="3" r="5.8"/>
-            <circle cx="142" cy="20" r="4.6"/>
-            <circle cx="190" cy="37" r="4.8"/>
-          </g>
-        </svg>
-
         <div class="env-back"></div>
 
         <div class="env-card" aria-hidden="true">
@@ -1110,11 +1212,11 @@
     <section class="closing" id="tutup">
       <svg class="flora" data-layout="base" data-seed="61" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
       <div class="block panel">
-        <p class="eyebrow reveal">Terima kasih</p>
-        <div class="ornament reveal" aria-hidden="true"><svg class="mini-bfly" viewBox="-40 -48 80 90"><use href="#butterfly"/></svg></div>
-        <h2 class="script reveal"><span data-k="brideShort">Saya</span> &amp; <span data-k="groomShort">Awak</span></h2>
-        <p class="reveal hash" data-k="hashtag">#SayaAwakSelamanya</p>
-        <p class="reveal cover-date" data-k="dateLong">25 Oktober 2025</p>
+        <div class="ornament reveal" aria-hidden="true"><svg class="closing-heart" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21S3 14.6 3 8.9A5 5 0 0 1 12 6a5 5 0 0 1 9 2.9C21 14.6 12 21 12 21z"/></svg></div>
+        <h2 class="script reveal"><span data-k="brideShort">Saya</span> <span class="amp">&amp;</span> <span data-k="groomShort">Awak</span></h2>
+        <p class="closing-note reveal">Terima kasih</p>
+        <div class="closing-rule reveal" aria-hidden="true"></div>
+        <p class="closing-credit reveal"><span class="cover-date" data-k="dateLong">25 Oktober 2025</span> &middot; <strong data-k="hashtag">#SayaAwakSelamanya</strong></p>
       </div>
     </section>
   </main>
@@ -1139,7 +1241,7 @@ const CARD = {
     bride: "photos/bride.jpg",     // portrait of the bride
     groom: "photos/groom.jpg"      // portrait of the groom (leave "" to skip)
   },
-  music: "",                       // e.g. "music/nasyid.mp3" (shows the music button)
+  music: "music/DI%20AKHIR%20PERANG%20ORCHESTRAL%20-%20NADIN%20AMIZAH.mp3",  // plays after the envelope seal is tapped
   dateISO: "2025-10-25T11:00:00+08:00",
   endISO: "2025-10-25T16:00:00+08:00",
   maps: "https://www.google.com/maps/search/?api=1&query=Dewan+Cinta+Kasih+Kuala+Lumpur",
@@ -1228,7 +1330,9 @@ document.getElementById("program").innerHTML = CARD.program.map((item) =>
   "<li>" + bflyMark + "<time>" + item.time + "</time><h3>" + item.title + "</h3><p>" + item.text + "</p></li>"
 ).join("");
 document.getElementById("contacts").innerHTML = CARD.contacts.map((person) =>
-  '<li><a href="tel:' + person.tel.replace(/\s/g, "") + '"><i>' + person.who.charAt(0) + "</i><em>" + person.who + "</em><span>" + person.tel + "</span></a></li>"
+  '<li><a class="contact-card" href="tel:' + person.tel.replace(/\s/g, "") + '">'
+  + '<svg class="contact-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>'
+  + '<span class="contact-name">' + person.who + '</span><span class="contact-num">' + person.tel + "</span></a></li>"
 ).join("");
 
 const start = new Date(CARD.dateISO);
@@ -1340,31 +1444,67 @@ function bflyInner(name, flip) {
 document.getElementById("butterfly").innerHTML = bflyInner("navy");
 document.querySelectorAll("svg[data-bf]").forEach((svg) => { svg.innerHTML = bflyInner(svg.dataset.bf); });
 
-const flight = document.getElementById("flight");
-function spawnButterfly(burst) {
-  const flyer = document.createElement("span");
-  flyer.className = "flyer";
-  const size = (burst ? 28 : 24) + Math.random() * 20;
-  flyer.style.width = size + "px";
-  flyer.style.left = (burst ? 18 + Math.random() * 64 : Math.random() * 100) + "%";
-  flyer.style.setProperty("--drift", (Math.random() * 160 - 80) + "px");
-  flyer.style.setProperty("--spin", (Math.random() * 40 - 20) + "deg");
-  flyer.style.animationDuration = (burst ? 5.5 : 8) + Math.random() * 4 + "s";
-  flyer.style.animationDelay = (burst ? Math.random() * 0.4 : 0) + "s";
-  flyer.innerHTML = '<svg viewBox="-40 -48 80 90" aria-hidden="true">' + bflyInner(BF_NAMES[Math.floor(Math.random() * BF_NAMES.length)], Math.random() > 0.5) + "</svg>";
-  const svg = flyer.querySelector("svg");
-  svg.style.animationDelay = (-Math.random()).toFixed(2) + "s";
-  flight.appendChild(flyer);
-  flyer.addEventListener("animationend", (event) => {
-    if (event.target === flyer && event.animationName === "fall") flyer.remove();
-  });
+// Falling petals (soft blue / silver), drawn on a canvas
+const petalCanvas = document.getElementById("petals");
+let petalsStarted = false;
+function startPetals() {
+  if (petalsStarted || !petalCanvas || !petalCanvas.getContext) return;
+  petalsStarted = true;
+  const ctx = petalCanvas.getContext("2d");
+  const colors = ["#213f7a", "#4c6ba3", "#8ea3c7", "#c3cde3", "#aeb6c5"];
+  const count = window.innerWidth < 640 ? 14 : 24;
+  const petals = [];
+  let w, h;
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth; h = window.innerHeight;
+    petalCanvas.width = w * dpr; petalCanvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function spawn(p, fromTop) {
+    p.x = Math.random() * w;
+    p.y = fromTop ? -20 - Math.random() * h * 0.3 : Math.random() * h;
+    p.size = 6 + Math.random() * 7;
+    p.vy = 0.35 + Math.random() * 0.6;
+    p.sway = 0.6 + Math.random() * 1.2;
+    p.phase = Math.random() * Math.PI * 2;
+    p.rot = Math.random() * Math.PI * 2;
+    p.vr = (Math.random() - 0.5) * 0.02;
+    p.color = colors[Math.floor(Math.random() * colors.length)];
+    p.alpha = 0.45 + Math.random() * 0.4;
+    return p;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+  for (let i = 0; i < count; i++) petals.push(spawn({}, true));
+  function frame(t) {
+    ctx.clearRect(0, 0, w, h);
+    petals.forEach((p) => {
+      p.y += p.vy; p.rot += p.vr;
+      const x = p.x + Math.sin(t / 1400 + p.phase) * 18 * p.sway;
+      if (p.y > h + 20) spawn(p, true);
+      ctx.save();
+      ctx.translate(x, p.y); ctx.rotate(p.rot);
+      ctx.globalAlpha = p.alpha; ctx.fillStyle = p.color;
+      // teardrop petal: two curves meeting at a point
+      ctx.beginPath();
+      ctx.moveTo(0, -p.size);
+      ctx.bezierCurveTo(p.size * 0.9, -p.size * 0.4, p.size * 0.6, p.size * 0.8, 0, p.size);
+      ctx.bezierCurveTo(-p.size * 0.6, p.size * 0.8, -p.size * 0.9, -p.size * 0.4, 0, -p.size);
+      ctx.fill();
+      ctx.restore();
+    });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
-let drift;
 document.getElementById("open").addEventListener("click", () => {
   const curtain = document.getElementById("curtain");
   const envelope = document.getElementById("envelope");
   if (envelope.classList.contains("opening")) return;
   document.getElementById("open").classList.add("is-breaking");
+  // start the music right here, inside the tap, so browsers allow autoplay
+  if (CARD.music) setMusic(true);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const smallScreen = window.matchMedia("(max-width: 560px)").matches;
 
@@ -1373,15 +1513,7 @@ document.getElementById("open").addEventListener("click", () => {
     envelope.classList.add("opening");
     curtain.classList.add("is-opening");
   }, reduceMotion ? 0 : 380);
-  if (!reduceMotion) {
-    setTimeout(() => {
-      const burst = smallScreen ? 8 : 16;
-      for (let i = 0; i < burst; i++) spawnButterfly(true);
-      const cap = smallScreen ? 6 : 12;
-      drift = setInterval(() => { if (flight.childElementCount < cap) spawnButterfly(false); }, 1500);
-      setTimeout(() => clearInterval(drift), 14000);
-    }, 1150);
-  }
+  if (!reduceMotion) setTimeout(startPetals, 1150);
   setTimeout(() => {
     // cross-fade: the page fades in while the cover fades out slowly
     curtain.classList.add("is-open");
@@ -1391,7 +1523,7 @@ document.getElementById("open").addEventListener("click", () => {
     window.scrollTo(0, 0);
     document.documentElement.style.scrollBehavior = "";
     setTimeout(watchReveals, reduceMotion ? 0 : 500);
-    if (CARD.music) { musicBtn.hidden = false; setMusic(true); }
+    if (CARD.music) musicBtn.hidden = false;
     setTimeout(() => { curtain.hidden = true; }, reduceMotion ? 1000 : 2000);
   }, reduceMotion ? 500 : 2300);
 });
