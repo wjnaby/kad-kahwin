@@ -85,14 +85,26 @@
   @keyframes sway-y { 0%, 100% { transform: scaleY(-1); } 50% { transform: scaleY(-1) rotate(.7deg); } }
   @keyframes sway-xy { 0%, 100% { transform: scale(-1); } 50% { transform: scale(-1) rotate(.7deg); } }
 
+  /* Scroll animation: content rises in when it enters the screen and, because the class is
+     removed again when it leaves, plays every time you scroll down OR back up.
+     Scrolling down: content rises from below. Scrolling up: it drops in from above. */
   .reveal {
-    opacity: 0; transform: translateY(22px);
-    transition: opacity .9s var(--ease), transform .9s var(--ease);
-    transition-delay: calc(var(--i, 0) * 110ms);
+    opacity: 0; transform: translateY(38px);
+    transition: opacity .9s var(--ease), transform 1s var(--ease);
+    transition-delay: calc(var(--i, 0) * 90ms);
+    will-change: opacity, transform;
   }
   .reveal.is-visible { opacity: 1; transform: none; }
-  .reveal--scale { transform: scale(.94); }
+  .reveal--scale { transform: translateY(26px) scale(.9); }
   .reveal--scale.is-visible { transform: none; }
+  .reveal.from-top:not(.is-visible) { transform: translateY(-38px); }
+  .reveal--scale.from-top:not(.is-visible) { transform: translateY(-26px) scale(.9); }
+  /* sideways variety for lists/cards */
+  .reveal--left:not(.is-visible) { transform: translateX(-46px); }
+  .reveal--right:not(.is-visible) { transform: translateX(46px); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal:not(.is-visible) { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
 
   .topbar {
     position: fixed; z-index: 30; top: 0; left: 0; width: 100%;
@@ -202,6 +214,7 @@
 
   /* ===== Envelope cover ===== */
   .curtain {
+    --cw: min(100vw, calc(100svh * .5625));
     position: fixed; z-index: 40; inset: 0;
     display: grid; place-items: center;
     overflow: hidden;
@@ -226,21 +239,22 @@
   .env-scene {
     position: relative; z-index: 2;
     width: min(94vw, 480px);
-    margin-top: 5vh;
+    margin-top: 0; margin-bottom: 8vh;
     display: flex; flex-direction: column; align-items: center; text-align: center;
   }
   .env-title { transition: opacity .5s ease, transform .6s var(--ease); }
-  .env-eyebrow { margin: 0; letter-spacing: .34em; text-transform: uppercase; font-size: 11px; color: var(--blue-deep); }
+  .env-eyebrow { margin: 0; letter-spacing: .34em; text-transform: uppercase; font-size: clamp(9px, calc(var(--cw) * .028), 11px); color: var(--blue-deep); }
   .env-salam {
     margin: 2px 0 0;
     font-family: "Pinyon Script", cursive;
-    font-size: clamp(2.5rem, 10vw, 3.4rem);
+    font-size: clamp(1.9rem, calc(var(--cw) * .115), 3.4rem);
     line-height: 1.15; color: var(--blue-night);
   }
   .curtain.is-opening .env-title { opacity: 0; transform: translateY(-14px); }
 
   .envelope {
-    --ew: min(88vw, 420px, max(250px, calc((100svh - 380px) * 1.47)));
+    /* everything scales from --cw (the visible width of the 9:16 cover picture, set on .curtain) */
+    --ew: min(calc(var(--cw) * .66), 380px);
     position: relative;
     width: var(--ew); height: calc(var(--ew) * .68);
     margin-top: clamp(20px, 4vh, 40px);
@@ -336,7 +350,8 @@
     100% { transform: scale(1.5); opacity: 0; }
   }
   .env-hint {
-    margin: 26px 0 0; letter-spacing: .26em; text-transform: uppercase; font-size: 11px; color: var(--blue-deep);
+    margin: clamp(14px, calc(var(--cw) * .05), 26px) 0 0; letter-spacing: .22em; text-transform: uppercase;
+    font-size: clamp(9px, calc(var(--cw) * .028), 11px); color: var(--blue-deep); text-align: center;
     animation: hint 2.4s ease-in-out infinite;
     transition: opacity .4s ease;
   }
@@ -811,8 +826,83 @@
     .curtain::after { background-size: cover; }
   }
   .curtain > .decor { display: none; }
+
+  /* Desktop / landscape: fill the whole screen. Instead of one narrow portrait picture,
+     the four decorated corners of the cover are pinned to the screen corners and fade
+     into the soft blurred background, so the cover spans edge to edge. */
+  .corner { display: none; }
+  @media (min-aspect-ratio: 1/1) {
+    .curtain {
+      --iw: min(46vw, calc(100svh * .8));      /* width at which the cover picture is drawn */
+      --ih: calc(var(--iw) * 1.7778);          /* its height (9:16) */
+      --cw: min(100vw, calc(100svh * .72));    /* centre content is no longer limited to the narrow picture */
+    }
+    .curtain::after { display: none; }
+    .corner {
+      display: block; position: absolute; z-index: 0; pointer-events: none;
+      background-image: url("photos/bg-cover.jpg");
+      background-repeat: no-repeat;
+      background-size: var(--iw) var(--ih);
+    }
+    .c-tl { left: 0; top: 0; width: calc(var(--iw) * .46); height: calc(var(--ih) * .42);
+            background-position: left top;
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 0 0, #000 62%, transparent 100%);
+            mask-image: radial-gradient(ellipse 100% 100% at 0 0, #000 62%, transparent 100%); }
+    .c-tr { right: 0; top: 0; width: calc(var(--iw) * .34); height: calc(var(--ih) * .16);
+            background-position: right top;
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 100% 0, #000 55%, transparent 100%);
+            mask-image: radial-gradient(ellipse 100% 100% at 100% 0, #000 55%, transparent 100%); }
+    .c-bl { left: 0; bottom: 0; width: calc(var(--iw) * .5); height: calc(var(--ih) * .34);
+            background-position: left bottom;
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 0 100%, #000 62%, transparent 100%);
+            mask-image: radial-gradient(ellipse 100% 100% at 0 100%, #000 62%, transparent 100%); }
+    .c-br { right: 0; bottom: 0; width: calc(var(--iw) * .44); height: calc(var(--ih) * .44);
+            background-position: right bottom;
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at 100% 100%, #000 62%, transparent 100%);
+            mask-image: radial-gradient(ellipse 100% 100% at 100% 100%, #000 62%, transparent 100%); }
+  }
   .env-eyebrow, .env-salam { text-shadow: 0 0 8px rgba(255,255,255,.9), 0 0 18px rgba(255,255,255,.8); }
   .env-hint { font-weight: 500; text-shadow: 0 0 8px rgba(255,255,255,.95), 0 0 16px rgba(255,255,255,.85); }
+
+  /* ===== Cover intro animation (plays when the link is opened) =====
+     Only the individual `translate` / `scale` / `rotate` properties are animated, so it never
+     fights the existing transform-based animations (flap, seal pulse, hover). */
+  .curtain { animation: introBg 1s ease backwards; }
+  .curtain::after { animation: introBg 1.8s ease .1s backwards; }
+  @keyframes introBg { from { opacity: 0; } }
+
+  .corner { --dx: 0px; --dy: 0px; animation: introCorner 1.9s var(--ease) .15s backwards; }
+  .c-tl { --dx: -70px; --dy: -70px; }
+  .c-tr { --dx: 70px;  --dy: -50px; animation-delay: .3s; }
+  .c-bl { --dx: -70px; --dy: 70px;  animation-delay: .45s; }
+  .c-br { --dx: 70px;  --dy: 70px;  animation-delay: .6s; }
+  @keyframes introCorner { from { opacity: 0; translate: var(--dx) var(--dy); scale: 1.12; } }
+
+  .env-eyebrow { animation: introUp 1s var(--ease) .35s backwards; }
+  .env-salam   { animation: introUp 1.3s var(--ease) .6s backwards; }
+  @keyframes introUp { from { opacity: 0; translate: 0 22px; filter: blur(6px); } }
+
+  .envelope { animation: introEnv 1.5s cubic-bezier(.2, .9, .25, 1.08) .9s backwards; }
+  @keyframes introEnv { from { opacity: 0; translate: 0 90px; scale: .86; rotate: -3deg; } }
+
+  .wax { animation: introWax .9s cubic-bezier(.3, 1.6, .5, 1) 2.1s backwards; }
+  @keyframes introWax { from { opacity: 0; scale: .15; rotate: -50deg; } }
+
+  .env-hint { animation: hintIn .9s ease 2.7s both, hint 2.4s ease-in-out 3.6s infinite; }
+  @keyframes hintIn { from { opacity: 0; translate: 0 10px; } to { opacity: .55; translate: 0 0; } }
+
+  .panel-bfly.a { animation: flap 2.6s ease-in-out infinite alternate, introFlyL 1.8s var(--ease) 1.2s backwards; }
+  .panel-bfly.b { animation: flap 3.1s ease-in-out infinite alternate reverse, introFlyL 1.8s var(--ease) 1.5s backwards; }
+  .panel-bfly.c { animation: flap 2.8s ease-in-out infinite alternate, introFlyR 1.8s var(--ease) 1.35s backwards; }
+  .panel-bfly.d { animation: flap 2.3s ease-in-out infinite alternate reverse, introFlyR 1.8s var(--ease) 1.65s backwards; }
+  @keyframes introFlyL { from { opacity: 0; translate: -140px 70px; scale: .5; } }
+  @keyframes introFlyR { from { opacity: 0; translate: 140px 70px; scale: .5; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .curtain, .curtain::after, .corner, .env-eyebrow, .env-salam, .envelope, .wax,
+    .panel-bfly.a, .panel-bfly.b, .panel-bfly.c, .panel-bfly.d { animation: none; }
+    .env-hint { animation: none; }
+  }
 
   /* Atur Majlis: translucent box (same as the invitation box) */
   #majlis .panel {
@@ -932,6 +1022,8 @@
   <audio id="bgm" loop preload="none"></audio>
 
   <div class="curtain" id="curtain">
+    <i class="corner c-tl" aria-hidden="true"></i><i class="corner c-tr" aria-hidden="true"></i>
+    <i class="corner c-bl" aria-hidden="true"></i><i class="corner c-br" aria-hidden="true"></i>
     <svg class="decor decor-top" data-decor="top" aria-hidden="true"></svg>
     <svg class="decor decor-bottom" data-decor="bottom" aria-hidden="true"></svg>
     <svg class="panel-bfly a" viewBox="-40 -48 80 90" data-bf="navy" aria-hidden="true"></svg>
@@ -1545,13 +1637,25 @@ document.querySelectorAll(".hero-frame, .block").forEach((block) => {
 let seen;
 function watchReveals() {
   if (seen) return;
+  const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // a little sideways variety: alternate the stacked cards / headings left and right
+  document.querySelectorAll(".frame .facts, .frame .timeline, .frame .map-plate, .frame .actions").forEach((el, i) => {
+    el.classList.add(i % 2 ? "reveal--right" : "reveal--left");
+  });
   seen = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      seen.unobserve(entry.target);
+      const el = entry.target;
+      const root = entry.rootBounds;
+      const tall = root && entry.intersectionRect.height >= root.height * 0.35;
+      if (entry.intersectionRatio >= 0.12 || (entry.isIntersecting && tall)) {
+        el.classList.add("is-visible");
+      } else if (!entry.isIntersecting && !calm) {
+        // it left the screen: remember which side so it re-enters from the right direction, then reset
+        el.classList.toggle("from-top", entry.boundingClientRect.top < 0);
+        el.classList.remove("is-visible");
+      }
     });
-  }, { threshold: 0.18 });
+  }, { threshold: [0, 0.05, 0.12, 0.25, 0.5] });
   document.querySelectorAll(".frame .reveal").forEach((node) => seen.observe(node));
 }
 
